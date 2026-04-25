@@ -1,0 +1,15 @@
+# EXAMPLE USAGE:
+#
+#   Refer for explanation to following link:
+#   https://lefthook.dev/configuration/
+#
+pre-push:
+  jobs:
+    - name: test codes
+      run: bun test
+
+pre-commit:
+  parallel: true
+  jobs:
+    - run: bun fmt {staged_files}
+      glob: "*.{js,ts,jsx,tsx}"
