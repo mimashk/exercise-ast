@@ -4,7 +4,7 @@ import { fromMarkdown } from "mdast-util-from-markdown";
 import { toMarkdown } from "mdast-util-to-markdown";
 import assert from "node:assert";
 
-import { findAll, findAllHeadings, sanitize } from "./scan-tree";
+import { findAll, findAllHeadings, sanitize } from "./scan-tree-without-libs";
 
 describe(findAllHeadings.name, () => {
   it('returns a heading element is level 1 when passed "# Heading1"', () => {
@@ -101,21 +101,22 @@ describe(findAll.name, () => {
 
     expect(codes).toBeArrayOfSize(1);
     expect(codes).toMatchObject([
-      code(null,
-        "if (left.core_mail_rdram(primaryVolumeDrive)) {\n"
-        + "    pupMode = moodle;\n"
-        + "    graphicArchive(responsive_ssl);\n"
-        + "} else {\n"
-        + "    ring_xhtml_simplex(string(host, inboxIpRoom));\n"
-        + "}\n"
-        + "if (vaporware_qwerty_media) {\n"
-        + "    waisLock.xp_bug += real;\n"
-        + "    adware_e_srgb.scroll = cellCorrectionFunction.dual(ddr_click_operation);\n"
-        + "}\n"
-        + "var webmail_external = 55;\n"
-        + "softwareResponsive(2, commercialHalf.bash.mcp_widget_ipod(4, 3, vertical +\n"
-        + "        86));\n"
-        + "unmount = 5;"
+      code(
+        null,
+        "if (left.core_mail_rdram(primaryVolumeDrive)) {\n" +
+          "    pupMode = moodle;\n" +
+          "    graphicArchive(responsive_ssl);\n" +
+          "} else {\n" +
+          "    ring_xhtml_simplex(string(host, inboxIpRoom));\n" +
+          "}\n" +
+          "if (vaporware_qwerty_media) {\n" +
+          "    waisLock.xp_bug += real;\n" +
+          "    adware_e_srgb.scroll = cellCorrectionFunction.dual(ddr_click_operation);\n" +
+          "}\n" +
+          "var webmail_external = 55;\n" +
+          "softwareResponsive(2, commercialHalf.bash.mcp_widget_ipod(4, 3, vertical +\n" +
+          "        86));\n" +
+          "unmount = 5;"
       ),
     ]);
   });
@@ -137,24 +138,24 @@ describe(findAll.name, () => {
 describe("sanitize", () => {
   it('returns "fuck" sanitized text when passed text and "fuck"', () => {
     const markdown =
-      "Lorem markdownum aures ora avidus opem: inprudens in rapta queritur crescitque.\n"
-      + "Et rebus, vultus ensis postes dictis inposuere naidas it. A in fuck enim me fluctibus"
-      + "triumpha, placuisse per loca, vulnere quid catenis nondum, est. Fecit monili\n"
-      + "aequoreos ulterius Phaethontida venit infectus formosis; regia. Ipse precanti\n"
-      + "terga spectent exspectant fixa sustineat testes gradus geminae sepulcro, populi.\n"
+      "Lorem markdownum aures ora avidus opem: inprudens in rapta queritur crescitque.\n" +
+      "Et rebus, vultus ensis postes dictis inposuere naidas it. A in fuck enim me fluctibus" +
+      "triumpha, placuisse per loca, vulnere quid catenis nondum, est. Fecit monili\n" +
+      "aequoreos ulterius Phaethontida venit infectus formosis; regia. Ipse precanti\n" +
+      "terga spectent exspectant fixa sustineat testes gradus geminae sepulcro, populi.\n";
 
-    const sanitized = sanitize(fromMarkdown(markdown), "fuck")
+    const sanitized = sanitize(fromMarkdown(markdown), "fuck");
 
     const expected =
-      "Lorem markdownum aures ora avidus opem: inprudens in rapta queritur crescitque.\n"
-      + "Et rebus, vultus ensis postes dictis inposuere naidas it. A in f\\*\\*k enim me fluctibus"
-      + "triumpha, placuisse per loca, vulnere quid catenis nondum, est. Fecit monili\n"
-      + "aequoreos ulterius Phaethontida venit infectus formosis; regia. Ipse precanti\n"
-      + "terga spectent exspectant fixa sustineat testes gradus geminae sepulcro, populi.\n"
+      "Lorem markdownum aures ora avidus opem: inprudens in rapta queritur crescitque.\n" +
+      "Et rebus, vultus ensis postes dictis inposuere naidas it. A in f\\*\\*k enim me fluctibus" +
+      "triumpha, placuisse per loca, vulnere quid catenis nondum, est. Fecit monili\n" +
+      "aequoreos ulterius Phaethontida venit infectus formosis; regia. Ipse precanti\n" +
+      "terga spectent exspectant fixa sustineat testes gradus geminae sepulcro, populi.\n";
 
-    expect(toMarkdown(sanitized)).toBe(expected)
-  })
-})
+    expect(toMarkdown(sanitized)).toBe(expected);
+  });
+});
 
 const loremipsum = `# Et in aciem sic
 
